@@ -1,21 +1,5 @@
-chrome.runtime.onInstalled.addListener(function() {
+chrome.commands.onCommand.addListener( function(command) {
 	chrome.tabs.query({ currentWindow: true }, function(tabs) {
-		console.log(tabs);
-	});
-
-	chrome.commands.getAll(function(commands) {
-		console.log(commands);
-	})
-});
-
-chrome.tabs.onActivated.addListener(function(activeInfo) {
-	chrome.tabs.get(activeInfo.tabId, function(tab) {
-		console.log(tab.pinned);
-	});
-});
-
-chrome.commands.onCommand.addListener(function(command) {
-	chrome.tabs.query({currentWindow: true}, function(tabs) {
 		const nextTabId = getNextNonPinnedTabId(tabs);
 		chrome.tabs.update(nextTabId, {active: true, highlighted: true});
 	});
