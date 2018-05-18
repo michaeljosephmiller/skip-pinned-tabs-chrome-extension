@@ -15,22 +15,25 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 });
 
 chrome.commands.onCommand.addListener(function(command) {
-	const nextTabId = getNextNonPinnedTabId();
-	chrome.tabs.update(tabs[newIndex].id, {active: true, highlighted: true});
+	chrome.tabs.query({currentWindow: true}, function(tabs) {
+		const nextTabId = getNextNonPinnedTabId(tabs);
+		chrome.tabs.update(nextTabId, {active: true, highlighted: true});
+	});
 });
 
-function getNextNonPinnedTabId() {
-	chrome.tabs.query({currentWindow: true}, function(tabs) {
-		console.log(tabs);
-		const activeTabIndex = getActiveTabIndex(tabs);
-		console.log("Active tab index: " + activeTabIndex);
+function getNextNonPinnedTabId(tabs) {
+	const nonPinnedTabs = tabs.filter( (tab) => { return !tab.pinned });
+	const activeTabIndex = getActiveTabIndex(tabs);
+	if (tabs[activeTabIndex].pinned) {
+		if (nonPinnedTabs.length > 0) return nonPinnedTabs[0].id;
+		return tabs[activeTabIndex].id;
+	}
 
-		let nextTabIndex = activeTabIndex + 1;
-		if (nextTabIndex > tabs.length) nextTabIndex = 0;
-		console.log("Next tab index: " + nextTabIndex);
+	const activeNonPinnedTabIndex = getActiveTabIndex(nonPinnedTabs);
+	let nextTabIndex = activeNonPinnedTabIndex + 1;
+	if (nextTabIndex > nonPinnedTabs.length - 1) nextTabIndex = 0;
 
-		return tabs[nextTabIndex].id;
-	});
+	return nonPinnedTabs[nextTabIndex].id;
 }
 
 function getActiveTabIndex(tabs) {
