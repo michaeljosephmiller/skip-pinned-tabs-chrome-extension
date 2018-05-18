@@ -1,0 +1,19 @@
+{
+	"name": "Skip Tabs",
+	"version": "1.0",
+	"description": "Skip pinned tabs while tab-surfing (ctrl+tab)",
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+	"commands": {
+		"next-tab": {
+			"suggested_key": {
+				"default": "Ctrl+Tab",
+				"mac": "Command+Tab"
+			},
+			"description": "Next Tab"
+		}
+	},
+	"manifest_version": 2
+}
