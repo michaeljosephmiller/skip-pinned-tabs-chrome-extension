@@ -1,11 +1,11 @@
 chrome.commands.onCommand.addListener( function(command) {
 	chrome.tabs.query({ currentWindow: true }, function(tabs) {
-		const nextTabId = getNextNonPinnedTabId(tabs);
+		const nextTabId = getNextTabId(tabs);
 		chrome.tabs.update(nextTabId, {active: true, highlighted: true});
 	});
 });
 
-function getNextNonPinnedTabId(tabs) {
+function getNextTabId(tabs) {
 	const nonPinnedTabs = tabs.filter( (tab) => { return !tab.pinned });
 	const activeTabIndex = getActiveTabIndex(tabs);
 	if (tabs[activeTabIndex].pinned) {
