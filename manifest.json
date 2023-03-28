@@ -1,15 +1,24 @@
 {
-	"name": "Skip Tabs",
-	"version": "1.0",
-	"author": "Pedro Rocha",
-	"description": "Skip pinned tabs when tab-surfing",
-	"background": {
-		"scripts": ["background.js"],
-		"persistent": false
+	"name": "Skip Pinned Tabs",
+	"version": "0.0.0.1",
+	"icons": {
+		"16": "skip-icon_16x16.png",
+		"32": "skip-icon_32x32.png",
+		"48": "skip-icon_48x48.png",
+		"128": "skip-icon_128x128.png"
 	},
-	"browser_action": {
-		"default_title": "Press Ctrl+Q/Command+Q to change tabs and skip pinned ones",
-		"default_icon": "icon.png"
+	"description": "Skip pinned tabs when tab-surfing",
+	"author": "Michael Miller",
+	"permissions": [
+	  "offscreen"
+	],
+	"background": {
+		"service_worker": "service_worker.js",
+		"type": "module"
+	},
+	"action": {
+		"default_title": "Press Ctrl+Q/Command+Q or Ctrl+Shift+Q/Command+Shift+Q to change tabs and skip pinned ones",
+		"default_icon": "skip-icon_16x16.png"
 	},
 	"commands": {
 		"next-tab": {
@@ -18,8 +27,15 @@
 				"mac": "Command+Q"
 			},
 			"description": "Next Tab"
+		},
+		"prev-tab": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+Q",
+				"mac": "Command+Shift+Q"
+			},
+			"description": "Previous Tab"
 		}
 	},
-	"manifest_version": 2
+	"manifest_version": 3
 }
 
